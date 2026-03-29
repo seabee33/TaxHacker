@@ -252,3 +252,4 @@ If TaxHacker has helped you save time or manage your finances better, consider s
 ## 📄 License
 
 TaxHacker is licensed under the [MIT License](LICENSE).
+
