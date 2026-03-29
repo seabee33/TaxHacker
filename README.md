@@ -110,7 +110,7 @@ Keep complete control over your financial data with local storage and self-hosti
 TaxHacker can be easily self-hosted on your own infrastructure for complete control over your data and application environment. We provide a [Docker image](./Dockerfile) and [Docker Compose](./docker-compose.yml) setup that makes deployment simple:
 
 ```bash
-curl -O https://raw.githubusercontent.com/vas3k/TaxHacker/main/docker-compose.yml
+curl -O https://raw.githubusercontent.com/seabee33/TaxHacker/main/docker-compose.yml
 
 docker compose up
 ```
@@ -132,7 +132,7 @@ Example custom configuration:
 ```yaml
 services:
   app:
-    image: ghcr.io/vas3k/taxhacker:latest
+    image: ghcr.io/seabee33/taxhacker:latest
     ports:
       - "7331:7331"
     environment:
