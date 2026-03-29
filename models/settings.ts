@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/db"
 import { PROVIDERS } from "@/lib/llm-providers"
 import { cache } from "react"
-import { LLMProvider } from "@/ai/providers/llmProvider"
+import { LLMConfig, LLMProvider } from "@/ai/providers/llmProvider"
 
 export type SettingsMap = Record<string, string>
 
@@ -11,7 +11,7 @@ export type SettingsMap = Record<string, string>
 export function getLLMSettings(settings: SettingsMap) {
   const priorities = (settings.llm_providers || "openai,google,mistral").split(",").map(p => p.trim()).filter(Boolean)
 
-  const providers = priorities.map((provider) => {
+  const providers: LLMConfig[] = priorities.map((provider) => {
     if (provider === "openai") {
       return {
         provider: provider as LLMProvider,
@@ -34,7 +34,7 @@ export function getLLMSettings(settings: SettingsMap) {
       }
     }
     return null
-  }).filter((provider): provider is NonNullable<typeof provider> => provider !== null)
+  }).filter((provider): provider is LLMConfig => provider !== null)
 
   if (process.env.CUSTOM_LLM_BASE_URL) {
     providers.unshift({
