@@ -36,6 +36,15 @@ export function getLLMSettings(settings: SettingsMap) {
     return null
   }).filter((provider): provider is NonNullable<typeof provider> => provider !== null)
 
+  if (process.env.CUSTOM_LLM_BASE_URL) {
+    providers.unshift({
+      provider: "openai-compatible" as LLMProvider,
+      baseUrl: process.env.CUSTOM_LLM_BASE_URL,
+      model: process.env.CUSTOM_LLM_MODEL_NAME || "qwen2.5-vl-7b-instruct",
+      apiKey: process.env.CUSTOM_LLM_API_KEY || "lm-studio",
+    })
+  }
+
   return {
     providers,
   }

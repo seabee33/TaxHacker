@@ -8,6 +8,9 @@ services:
       - SELF_HOSTED_MODE=true
       - UPLOAD_PATH=/app/data/uploads
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/taxhacker
+      - CUSTOM_LLM_BASE_URL=${CUSTOM_LLM_BASE_URL:-}
+      - CUSTOM_LLM_MODEL_NAME=${CUSTOM_LLM_MODEL_NAME:-}
+      - CUSTOM_LLM_API_KEY=${CUSTOM_LLM_API_KEY:-lm-studio}
     volumes:
       - ./data:/app/data
     restart: unless-stopped

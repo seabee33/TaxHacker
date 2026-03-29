@@ -42,7 +42,7 @@ Snap a photo of any receipt or upload an invoice PDF, and TaxHacker will automat
 - **Auto-categorization**: Transactions are automatically sorted into relevant categories based on their content
 - **Item splitting**: Extract individual items from invoices and split them into separate transactions when needed
 - **Structured storage**: Everything gets saved in an organized database for easy filtering and retrieval
-- **Customizable AI providers**: Choose from OpenAI, Google Gemini, or Mistral (local LLM support coming soon)
+- **Customizable AI providers**: Choose from OpenAI, Google Gemini, Mistral, or any OpenAI-compatible endpoint (LM Studio, Ollama, vLLM, etc.)
 
 TaxHacker works with a wide variety of documents, including store receipts, restaurant bills, invoices, bank statements, letters, even handwritten receipts. It handles any language and any currency with ease.
 
@@ -165,6 +165,26 @@ You can also configure LLM provider settings in the application or via environme
 - **OpenAI**: `OPENAI_MODEL_NAME` and `OPENAI_API_KEY`
 - **Google Gemini**: `GOOGLE_MODEL_NAME` and `GOOGLE_API_KEY`
 - **Mistral**: `MISTRAL_MODEL_NAME` and `MISTRAL_API_KEY`
+
+### Custom OpenAI-compatible provider (LM Studio, Ollama, vLLM, etc.)
+
+You can point TaxHacker at any OpenAI-compatible API endpoint instead of (or in addition to) the cloud providers above. This is useful for running local models via [LM Studio](https://lmstudio.ai/), Ollama, vLLM, or any other compatible server.
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `CUSTOM_LLM_BASE_URL` | Base URL of the OpenAI-compatible API | `http://192.168.1.50:1234/v1` |
+| `CUSTOM_LLM_MODEL_NAME` | Model name to request | `qwen2.5-vl-7b-instruct` |
+| `CUSTOM_LLM_API_KEY` | API key (dummy value is fine for local endpoints) | `lm-studio` |
+
+When `CUSTOM_LLM_BASE_URL` is set, it is tried **first** before any cloud provider. If it fails, TaxHacker falls back to the next configured provider (OpenAI, Google, Mistral). If the variable is not set, behaviour is unchanged.
+
+Example `.env` for LM Studio running on a remote machine:
+
+```env
+CUSTOM_LLM_BASE_URL=http://192.168.1.50:1234/v1
+CUSTOM_LLM_MODEL_NAME=qwen2.5-vl-7b-instruct
+CUSTOM_LLM_API_KEY=lm-studio
+```
 
 ## ⌨️ Local Development
 

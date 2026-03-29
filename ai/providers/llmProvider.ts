@@ -3,12 +3,13 @@ import { ChatGoogleGenerativeAI } from "@langchain/google-genai"
 import { ChatMistralAI } from "@langchain/mistralai"
 import { BaseMessage, HumanMessage } from "@langchain/core/messages"
 
-export type LLMProvider = "openai" | "google" | "mistral"
+export type LLMProvider = "openai" | "google" | "mistral" | "openai-compatible"
 
 export interface LLMConfig {
   provider: LLMProvider
   apiKey: string
   model: string
+  baseUrl?: string
 }
 
 export interface LLMSettings {
@@ -32,7 +33,16 @@ async function requestLLMUnified(config: LLMConfig, req: LLMRequest): Promise<LL
   try {
     const temperature = 0
     let model: any
-    if (config.provider === "openai") {
+    if (config.provider === "openai-compatible") {
+      model = new ChatOpenAI({
+        apiKey: config.apiKey || "lm-studio",
+        model: config.model,
+        temperature: temperature,
+        configuration: {
+          baseURL: config.baseUrl,
+        },
+      })
+    } else if (config.provider === "openai") {
       model = new ChatOpenAI({
         apiKey: config.apiKey,
         model: config.model,
